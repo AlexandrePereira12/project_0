@@ -29,3 +29,14 @@ insert_produto = text("""
     )
     RETURNING id;
 """)
+
+update_produto = text("""
+    UPDATE produtos
+    SET
+        nome = COALESCE(:nome, nome),
+        valor_compra = COALESCE(:valor_compra, valor_compra),
+        valor_venda = COALESCE(:valor_venda, valor_venda),
+        quantidade_estoque = COALESCE(:quantidade_estoque, quantidade_estoque)
+    WHERE id = :id
+    RETURNING id;
+""")
