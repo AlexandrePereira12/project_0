@@ -2,11 +2,10 @@ from fastapi import FastAPI, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from src.core.database import get_db
+from src.modules.estoque.estoque import router as estoque_router
 
-app = FastAPI(
-    title="Sistema de Estoque e Finanças",
-    version="1.0.0",
-)
+app = FastAPI(title="API Controle de Estoque e Finanças")
+
 
 @app.get("/")
 async def health_check():
@@ -27,3 +26,5 @@ async def db_health_check(db: AsyncSession = Depends(get_db)):
             "database": "not connected",
             "detail": str(e)
         }
+        
+app.include_router(estoque_router)
