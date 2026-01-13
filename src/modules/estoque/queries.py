@@ -53,21 +53,3 @@ check_quantidade_produto = text("""
     FROM produtos
     WHERE id = :produto_id
 """)
-
-saida_produto = text("""
-    UPDATE produtos
-    SET
-        quantidade_estoque = :quantidade_estoque,
-        ultima_venda = NOW()
-    WHERE id = :id
-    RETURNING id, quantidade_estoque, ultima_venda
-""")
-
-entrada_produto = text("""
-    UPDATE produtos
-    SET
-        quantidade_estoque = :quantidade_estoque,
-        ultima_compra = NOW()
-    WHERE id = :id 
-    RETURNING id, quantidade_estoque, ultima_compra
-""")
