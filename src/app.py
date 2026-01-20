@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
+from fastapi.middleware.cors import CORSMiddleware
+
 from src.core.database import get_db
 from src.modules.estoque.estoque import router as estoque_router
 from src.modules.caixa.caixa import router as caixa_router
@@ -8,6 +10,14 @@ from src.modules.relatorios.relatorios import router as relatorios_router
 
 app = FastAPI(title="API Controle de Estoque e Finanças")
 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Substitua pelo domínio do frontend, se necessário
+    allow_credentials=True,
+    allow_methods=["*"],  # Permitir todos os métodos (GET, POST, OPTIONS, etc.)
+    allow_headers=["*"],  # Permitir todos os cabeçalhos
+)
 
 @app.get("/")
 async def health_check():

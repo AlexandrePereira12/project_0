@@ -32,7 +32,8 @@ insert_movimentacao = text("""
         quantidade,
         estoque_antes,
         estoque_depois,
-        motivo
+        motivo,
+        forma_pagamento
     )
     VALUES
     (
@@ -41,6 +42,24 @@ insert_movimentacao = text("""
         :quantidade,
         :estoque_antes,
         :estoque_depois,
-        :motivo
+        :motivo,
+        :forma_pagamento
     )
+""")
+
+get_movimentacoes = text("""
+    SELECT
+        me.id,
+        p.nome AS produto_nome,
+        me.quantidade,
+        p.valor_venda AS valor_unitario,
+        (p.valor_venda * me.quantidade) AS valor_total,
+        me.forma_pagamento,
+        me.criado_em AS data
+    FROM movimentacoes_estoque me
+    JOIN produtos p ON p.id = me.produto_id
+    WHERE me.tipo = 'SAIDA'
+      AND me.motivo = 'VENDA'
+    ORDER BY me.criado_em DESC
+    LIMIT :limit
 """)
