@@ -55,11 +55,11 @@ get_movimentacoes = text("""
         p.valor_venda AS valor_unitario,
         (p.valor_venda * me.quantidade) AS valor_total,
         me.forma_pagamento,
-        me.criado_em AS data
+        (me.criado_em AT TIME ZONE 'UTC' AT TIME ZONE 'America/Sao_Paulo') AS data
     FROM movimentacoes_estoque me
     JOIN produtos p ON p.id = me.produto_id
     WHERE me.tipo = 'SAIDA'
-      AND me.motivo = 'VENDA'
+    AND me.motivo = 'VENDA'
     ORDER BY me.criado_em DESC
     LIMIT :limit
 """)
